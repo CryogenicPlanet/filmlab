@@ -1,0 +1,99 @@
+{
+  "gridSize": 33,
+  "midGrey": 0.18,
+  "logLo": -9.0,
+  "logHi": 5.0,
+  "looks": [
+    {
+      "id": "standard",
+      "name": "Standard",
+      "fujiName": "Provia",
+      "blurb": "Balanced, faithful slide-film colour.",
+      "monochrome": false
+    },
+    {
+      "id": "vivid-slide",
+      "name": "Vivid Slide",
+      "fujiName": "Velvia",
+      "blurb": "Deep saturation and contrast for landscapes and colour.",
+      "monochrome": false
+    },
+    {
+      "id": "soft-slide",
+      "name": "Soft Slide",
+      "fujiName": "Astia",
+      "blurb": "Gentle contrast, kind to skin, still colourful.",
+      "monochrome": false
+    },
+    {
+      "id": "documentary",
+      "name": "Documentary",
+      "fujiName": "Classic Chrome",
+      "blurb": "Muted colour, firm shadows, reportage feel.",
+      "monochrome": false
+    },
+    {
+      "id": "street-neg",
+      "name": "Street Neg",
+      "fujiName": "Classic Neg",
+      "blurb": "Hard-toned colour negative with shifted hues.",
+      "monochrome": false
+    },
+    {
+      "id": "amber-neg",
+      "name": "Amber Neg",
+      "fujiName": "Nostalgic Neg",
+      "blurb": "Warm, amber-tinted print with soft highlights.",
+      "monochrome": false
+    },
+    {
+      "id": "true-color",
+      "name": "True Colour",
+      "fujiName": "Reala Ace",
+      "blurb": "Natural, accurate colour with a clean finish.",
+      "monochrome": false
+    },
+    {
+      "id": "cinema",
+      "name": "Cinema",
+      "fujiName": "Eterna",
+      "blurb": "Flat, low-saturation motion-picture tone.",
+      "monochrome": false
+    },
+    {
+      "id": "bleach",
+      "name": "Bleach",
+      "fujiName": "Bleach Bypass",
+      "blurb": "Silvery, desaturated, high-contrast.",
+      "monochrome": false
+    },
+    {
+      "id": "portrait-hi",
+      "name": "Portrait Hi",
+      "fujiName": "Pro Neg Hi",
+      "blurb": "Studio negative with a bit more punch.",
+      "monochrome": false
+    },
+    {
+      "id": "portrait",
+      "name": "Portrait",
+      "fujiName": "Pro Neg Std",
+      "blurb": "Soft studio negative, smooth skin tones.",
+      "monochrome": false
+    },
+    {
+      "id": "silver",
+      "name": "Silver",
+      "fujiName": "Acros",
+      "blurb": "Rich black-and-white with fine tonality.",
+      "monochrome": true
+    },
+    {
+      "id": "mono",
+      "name": "Mono",
+      "fujiName": "Monochrome",
+      "blurb": "Plain black-and-white.",
+      "monochrome": true
+    }
+  ]
+}

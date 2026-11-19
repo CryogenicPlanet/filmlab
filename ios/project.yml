@@ -1,0 +1,41 @@
+name: Filmlab
+options:
+  bundleIdPrefix: dev.cryogenicplanet
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    DEVELOPMENT_TEAM: 7LZNMT3KAH
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1"
+    # Core Image Metal kernels
+    MTL_COMPILER_FLAGS: "-fcikernel"
+    MTLLINKER_FLAGS: "-cikernel"
+targets:
+  Filmlab:
+    type: application
+    platform: iOS
+    sources:
+      - path: Filmlab/Sources
+      - path: Filmlab/Resources
+        buildPhase: resources
+    info:
+      path: Filmlab/Info.plist
+      properties:
+        CFBundleDisplayName: Filmlab
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSCameraUsageDescription: Filmlab uses the camera to take photos with film looks.
+        NSPhotoLibraryAddUsageDescription: Filmlab saves your photos to your library.
+        NSPhotoLibraryUsageDescription: Filmlab shows your latest photo.
+        NSLocationWhenInUseUsageDescription: Filmlab adds where you took each photo to the photo, like the built-in camera. You can turn this off in Filmlab settings.
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.cryogenicplanet.filmlab
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon

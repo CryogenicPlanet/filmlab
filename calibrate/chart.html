@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>filmlab chart</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; cursor: none; }
+  #grid { display: grid; gap: 1.2vmin; padding: 3vmin; box-sizing: border-box; height: 100vh; width: 100vw; }
+  #grid div { border-radius: 0.4vmin; }
+  #label { position: fixed; bottom: 0.6vmin; right: 1vmin; color: #333; font: 1.4vmin system-ui; }
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<div id="label"></div>
+<script>
+// Deterministic colour charts for fitting camera looks. Arrow keys / space change page; F = fullscreen.
+const mulberry = (seed) => () => {
+  seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+const hsl = (h, s, l) => `hsl(${h.toFixed(1)} ${(s * 100).toFixed(1)}% ${(l * 100).toFixed(1)}%)`;
+const range = (n) => Array.from({ length: n }, (_, i) => i);
+const COLS = 12, ROWS = 7, N = COLS * ROWS;
+
+const pages = [
+  // 1-4: random coverage of the whole gamut, biased toward mid lightness
+  ...[11, 23, 37, 51].map((seed) => {
+    const r = mulberry(seed);
+    return range(N).map(() => hsl(r() * 360, Math.sqrt(r()), 0.08 + 0.84 * r()));
+  }),
+  // 5: hue wheel at three saturations x lightness
+  range(N).map((i) => {
+    const h = (i % COLS) * (360 / COLS), row = Math.floor(i / COLS);
+    const s = [1, 0.7, 0.4, 1, 0.7, 0.4, 0.2][row], l = [0.5, 0.5, 0.5, 0.3, 0.3, 0.72, 0.6][row];
+    return hsl(h, s, l);
+  }),
+  // 6: skin, foliage, sky, earth — the memory colours looks live or die on
+  (() => {
+    const r = mulberry(99);
+    const fam = [[18, 32, 0.35, 0.6, 0.25, 0.75], [80, 140, 0.25, 0.7, 0.15, 0.55], [195, 225, 0.3, 0.8, 0.35, 0.85], [20, 45, 0.15, 0.45, 0.1, 0.5]];
+    return range(N).map((i) => {
+      const [h0, h1, s0, s1, l0, l1] = fam[i % 4];
+      return hsl(h0 + r() * (h1 - h0), s0 + r() * (s1 - s0), l0 + r() * (l1 - l0));
+    });
+  })(),
+  // 7: neutral ramp plus warm/cool near-neutrals
+  range(N).map((i) => {
+    const row = Math.floor(i / COLS), t = (i % COLS) / (COLS - 1);
+    const l = 0.02 + 0.96 * t;
+    return [hsl(0, 0, l), hsl(0, 0, Math.pow(t, 2.2) * 0.98 + 0.01), hsl(30, 0.12, l), hsl(210, 0.12, l), hsl(120, 0.08, l), hsl(300, 0.08, l), hsl(55, 0.2, l)][row];
+  }),
+];
+
+const grid = document.getElementById("grid"), label = document.getElementById("label");
+grid.style.gridTemplateColumns = `repeat(${COLS}, 1fr)`;
+grid.style.gridTemplateRows = `repeat(${ROWS}, 1fr)`;
+const show = (p) => {
+  grid.replaceChildren(...pages[p].map((c) => Object.assign(document.createElement("div"), { style: `background:${c}` })));
+  label.textContent = `${p + 1}/${pages.length}`;
+  location.hash = String(p + 1);
+};
+const start = Math.max(0, Math.min(pages.length - 1, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+const state = { page: start };
+show(state.page);
+addEventListener("keydown", (e) => {
+  if (e.key === "f") document.documentElement.requestFullscreen?.();
+  const d = e.key === "ArrowLeft" ? -1 : ["ArrowRight", " "].includes(e.key) ? 1 : 0;
+  if (d) { state.page = (state.page + d + pages.length) % pages.length; show(state.page); }
+});
+// When served by serve.ts, follow the page the capture script asks for.
+if (location.protocol.startsWith("http")) {
+  setInterval(async () => {
+    try {
+      const p = parseInt(await (await fetch("/page", { cache: "no-store" })).text(), 10) - 1;
+      if (p >= 0 && p < pages.length && p !== state.page) { state.page = p; show(p); }
+    } catch {}
+  }, 250);
+  document.documentElement.addEventListener("click", () => document.documentElement.requestFullscreen?.());
+}
+addEventListener("hashchange", () => {
+  const p = (parseInt(location.hash.slice(1), 10) || 1) - 1;
+  if (p !== state.page && p >= 0 && p < pages.length) { state.page = p; show(p); }
+});
+</script>
+</body>
+</html>

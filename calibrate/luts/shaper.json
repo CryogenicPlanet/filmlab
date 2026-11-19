@@ -1,0 +1,8 @@
+{
+  "scale": 1.437136386073444,
+  "mid_grey": 0.18,
+  "log_lo": -9.0,
+  "log_hi": 5.0,
+  "space": "linear Rec.2020 D65",
+  "output": "sRGB"
+}

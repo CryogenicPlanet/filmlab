@@ -1,0 +1,11 @@
+calibrate/.venv/
+calibrate/captures/
+calibrate/cache/
+calibrate/previews/
+ios/build/
+ios/*.xcodeproj/
+DerivedData/
+.DS_Store
+__pycache__/
+# Calibration pairs shot on the phone are personal photos; keep only the fitted curve.
+calibrate/phone/*/
